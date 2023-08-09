@@ -3,7 +3,7 @@ import livros from "../models/livro.js";
 class LivroController {
   static listarLivros = async (req, res) => {
     try {
-      const retorno = await livros.find();
+      const retorno = await livros.find().populate('autor').exec();
       res.status(200).json(retorno);
     } catch (error) {
       res.status(500).json(error);
@@ -13,7 +13,7 @@ class LivroController {
   static listarLivrosPorId = async (req, res) => {
     try {
       const id = req.params.id
-      const retorno = await livros.findById(id);
+      const retorno = await livros.findById(id).populate('autor', 'nome').exec();
       res.status(200).json(retorno);
     } catch (error) {
       res.status(500).json(error.message);
